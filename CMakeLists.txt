@@ -15,7 +15,10 @@ enable_testing()
 # Now simply link against gtest or gtest_main as needed. Eg
 add_executable(gs gs.cpp)
 target_link_libraries(gs GTest::gtest_main)
-add_test(NAME gs COMMAND gs)
+add_test(
+  NAME gs 
+  COMMAND gs -t 0.14 0.07 0.03 0.0648 0.1
+)
 
 include(GoogleTest)
 gtest_discover_tests(gs DISCOVERY_TIMEOUT 600)
