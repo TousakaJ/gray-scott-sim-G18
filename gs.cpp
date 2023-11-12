@@ -5,6 +5,9 @@
 #include <fstream>
 #include <sstream>
 #include <cmath>
+#include <cstring>
+
+#include "gtest/gtest.h"
 
 // Define simulation parameters
 const int width = 256;                // Width of the grid
@@ -17,6 +20,7 @@ double threshold = 0.1;
 const double dt = 0.06;               // Time step
 const int numIterations = 10000;
 const int outputInterval =  100;      // Output every 1000 iterations
+bool testFlag = false;
 
 // Initialize grid and constants
 std::vector<std::vector<double>> u(width, std::vector<double>(height, 1.0));
@@ -35,6 +39,22 @@ void init() {
               v[x][y] = 0.0;
             }
         }
+    }
+
+    if(testFlag){
+        std::cout << "[----------] 2+x tests from GSSimTest(pseudo)" << std::endl;
+
+        std::cout << "[ RUN      ] GSSimTest(pseudo).ParamCheck" << std::endl;
+        ASSERT_TRUE(typeid(F) == typeid(double));
+        ASSERT_TRUE(typeid(k) == typeid(double));
+        std::cout << "[       OK ] GSSimTest(pseudo).ParamCheck" << std::endl;
+
+        std::cout << "[ RUN      ] GSSimTest(pseudo).SizeCheck" << std::endl;
+        ASSERT_EQ(u.size(), v.size());
+        for (int i=0; i < u.size(); i++){
+            ASSERT_EQ(u[i].size(), v[i].size());
+        }
+        std::cout << "[       OK ] GSSimTest(pseudo).SizeCheck" << std::endl;
     }
 }
 
@@ -88,6 +108,16 @@ void simulateStep() {
             
             nextU[x][y] = a + dt * dU;
             nextV[x][y] = b + dt * dV;
+
+            if(testFlag){
+                if (abs(a) < 1e-15 && abs(b) < 1e-15)
+                {
+                    std::cout << "[ RUN      ] GSSimTest(pseudo).ResultOfZeroCheck[" << x << "][" << y << "]" << std::endl;
+                    EXPECT_EQ(nextU[x][y], dt * Du * (u[x + 1][y] + u[x - 1][y] + u[x][y + 1] + u[x][y - 1]) + F);
+                    EXPECT_EQ(nextV[x][y], dt * Dv * (v[x + 1][y] + v[x - 1][y] + v[x][y + 1] + v[x][y - 1]));
+                    std::cout << "[       OK ] GSSimTest(pseudo).ResultOfZeroCheck[" << x << "][" << y << "]" << std::endl;
+                }
+            }
         }
     }
 
@@ -109,15 +139,47 @@ double countElementsAboveThreshold(double threshold) {
 }
 
 int main(int argc, char* argv[]) {
-    if (argc != 5){
-        std::cout << "Usage: " << argv[0] << " <Du> <Dv> <F> <k> <threshold>" << std::endl;
+    testFlag = false;
+    std::cout << "Param recieved: " << argc << std::endl;
+    if (argc != 5 && argc != 6 && argc != 7)
+    {
+        std::cout << "Usage: " << argv[0] << " [-t test] <Du> <Dv> <F> <k> <threshold>" << std::endl;
     }
-    else{
+    else if (argc == 5){
       Du = std::stod(argv[1]);
       Dv = std::stod(argv[2]);
       F = std::stod(argv[3]);
       k = std::stod(argv[4]);
       threshold = std::stod(argv[5]);
+    }
+    else if (argc == 6){
+        if (strcmp(argv[0], "-t") == 0){
+            testFlag = true;
+        }
+        Du = std::stod(argv[1]);
+        Dv = std::stod(argv[2]);
+        F = std::stod(argv[3]);
+        k = std::stod(argv[4]);
+        threshold = std::stod(argv[5]);
+    }
+    else if (argc == 7){
+        if (strcmp(argv[1], "-t") == 0){
+            testFlag = true;
+        }
+        Du = std::stod(argv[2]);
+        Dv = std::stod(argv[3]);
+        F = std::stod(argv[4]);
+        k = std::stod(argv[5]);
+        threshold = std::stod(argv[6]);
+    }
+    
+    if(testFlag){
+        std::cout << "Process run in test mode." << std::endl;
+        std::cout << "Du= " << Du << std::endl;
+        std::cout << "Dv= " << Dv << std::endl;
+        std::cout << "F= " << F << std::endl;
+        std::cout << "k= " << k << std::endl;
+        std::cout << "threshold= " << threshold << std::endl;
     }
        
     init();
@@ -134,6 +196,9 @@ int main(int argc, char* argv[]) {
     }
 
     // count the amount of pixels above threshold at end.
+    if(testFlag){
+        std::cout << "[----------] 2+x tests from GSSimTest(pseudo)" << std::endl;
+    }
     double n = countElementsAboveThreshold(threshold);
     std::cout << "Simulation completed: P(v > threshold) = " << n << std::endl;
     
