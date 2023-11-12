@@ -1,0 +1,29 @@
+name: C/C++ CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: sudo apt-get install -y libboost-all-dev cmake
+
+    - name: Configure CMake
+      run: cmake -S . -B build
+
+    - name: Build
+      run: cmake --build build --config Release
+
+    - name: Run tests
+      run: |
+        Du=$(awk -v min=0 -v max=1 'BEGIN{srand(); print min+rand()*(max-min)}')
+        Dv=$(awk -v min=0 -v max=1 'BEGIN{srand(); print min+rand()*(max-min)}')
+        F=$(awk -v min=0 -v max=1 'BEGIN{srand(); print min+rand()*(max-min)}')
+        k=$(awk -v min=0 -v max=1 'BEGIN{srand(); print min+rand()*(max-min)}')
+        threshold=$(awk -v min=0 -v max=1 'BEGIN{srand(); print min+rand()*(max-min)}')
+        ./build/gs $Du $Dv $F $k $threshold

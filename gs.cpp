@@ -5,6 +5,10 @@
 #include <fstream>
 #include <sstream>
 #include <cmath>
+#include "checks.h"
+#include "gs.h"
+#include <boost/type_index.hpp>
+#include <boost/assert.hpp>
 
 // Define simulation parameters
 const int width = 256;                // Width of the grid
@@ -109,7 +113,7 @@ double countElementsAboveThreshold(double threshold) {
 }
 
 int main(int argc, char* argv[]) {
-    if (argc != 5){
+    if (argc != 6){
         std::cout << "Usage: " << argv[0] << " <Du> <Dv> <F> <k> <threshold>" << std::endl;
     }
     else{
@@ -123,6 +127,10 @@ int main(int argc, char* argv[]) {
     init();
     std::cout << "Simulation initiated." << std::endl;
 
+    // Call the check functions after initialization
+    checkTypes(F, k, u, v);
+    checkSizes(u, v);
+
     // Main simulation loop
     for (int iteration = 0; iteration < numIterations; ++iteration) {
         simulateStep();
@@ -133,10 +141,13 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    // Call the check function after the simulation
+    setZero();
+    checkSimulation(u, v);
+
     // count the amount of pixels above threshold at end.
     double n = countElementsAboveThreshold(threshold);
     std::cout << "Simulation completed: P(v > threshold) = " << n << std::endl;
     
     return 0;
 }
-
