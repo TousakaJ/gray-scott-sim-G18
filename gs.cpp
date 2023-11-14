@@ -7,7 +7,7 @@
 #include <cmath>
 #include <cstring>
 
-#include "gtest/gtest.h"
+#include "gs.h"
 
 // Define simulation parameters
 const int width = 256;                // Width of the grid
@@ -42,7 +42,7 @@ void init() {
     }
 
     if(testFlag){
-        std::cout << "[----------] 2+x tests from GSSimTest(pseudo)" << std::endl;
+        std::cout << "[----------] 3 tests from GSSimTest(pseudo)" << std::endl;
 
         std::cout << "[ RUN      ] GSSimTest(pseudo).ParamCheck" << std::endl;
         ASSERT_TRUE(typeid(F) == typeid(double));
@@ -55,10 +55,44 @@ void init() {
             ASSERT_EQ(u[i].size(), v[i].size());
         }
         std::cout << "[       OK ] GSSimTest(pseudo).SizeCheck" << std::endl;
+
+        std::cout << "[ RUN      ] GSSimTest(pseudo).ZeroMatSimCheck" << std::endl;
+        for (int x = 0; x < width; ++x) {
+            for (int y = 0; y < height; ++y) {
+                u[x][y] = 0.0;
+                v[x][y] = 0.0;
+            }
+        }
+        for (int iteration = 0; iteration < numIterations; ++iteration) {
+            simulateStep();
+        }
+        std::ifstream ifsu("../test/zero_u.txt");
+        std::ifstream ifsv("../test/zero_v.txt");
+        std::string stru;
+        std::string strv;
+        std::vector<std::vector<double>> uz(width, std::vector<double>(height, 0.0));
+        std::vector<std::vector<double>> vz(width, std::vector<double>(height, 0.0));
+        for (int x = 0; x < width; ++x) {
+            for (int y = 0; y < height; ++y) {
+                ifsu >> stru;
+                ifsv >> strv;
+                uz[x][y] = std::stod(stru);
+                vz[x][y] = std::stod(strv);
+            }
+        }
+        for (int x = 0; x < width; ++x) {
+            for (int y = 0; y < height; ++y) {
+                EXPECT_TRUE(abs(v[x][y] - vz[x][y]) < 1e-6);
+                EXPECT_TRUE(abs(u[x][y] - uz[x][y]) < 1e-6);
+            }
+        }
+        std::cout << "[       OK ] GSSimTest(pseudo).ZeroMatSimCheck" << std::endl;
+
+        std::cout << "[----------] 3 tests from GSSimTest(pseudo)" << std::endl;
     }
 }
 
-// Function to write the u array to a VTK file
+// Function to write the v array to a VTK file
 void writeVTKFile(int iteration) {
     std::stringstream ss;
     ss << "output_" << iteration << ".vtk";
@@ -108,16 +142,6 @@ void simulateStep() {
             
             nextU[x][y] = a + dt * dU;
             nextV[x][y] = b + dt * dV;
-
-            if(testFlag){
-                if (abs(a) < 1e-15 && abs(b) < 1e-15)
-                {
-                    std::cout << "[ RUN      ] GSSimTest(pseudo).ResultOfZeroCheck[" << x << "][" << y << "]" << std::endl;
-                    EXPECT_EQ(nextU[x][y], dt * Du * (u[x + 1][y] + u[x - 1][y] + u[x][y + 1] + u[x][y - 1]) + F);
-                    EXPECT_EQ(nextV[x][y], dt * Dv * (v[x + 1][y] + v[x - 1][y] + v[x][y + 1] + v[x][y - 1]));
-                    std::cout << "[       OK ] GSSimTest(pseudo).ResultOfZeroCheck[" << x << "][" << y << "]" << std::endl;
-                }
-            }
         }
     }
 
@@ -183,24 +207,24 @@ int main(int argc, char* argv[]) {
     }
        
     init();
-    std::cout << "Simulation initiated." << std::endl;
 
-    // Main simulation loop
-    for (int iteration = 0; iteration < numIterations; ++iteration) {
-        simulateStep();
-        
-        // Periodically write to VTK file
-        if (iteration % outputInterval == 0) {
-            writeVTKFile(iteration);
+    if(!testFlag){
+        std::cout << "Simulation initiated." << std::endl;
+
+        // Main simulation loop
+        for (int iteration = 0; iteration < numIterations; ++iteration) {
+            simulateStep();
+
+            // Periodically write to VTK file
+            if (iteration % outputInterval == 0) {
+                writeVTKFile(iteration);
+            }
         }
-    }
 
-    // count the amount of pixels above threshold at end.
-    if(testFlag){
-        std::cout << "[----------] 2+x tests from GSSimTest(pseudo)" << std::endl;
+        // count the amount of pixels above threshold at end.
+        double n = countElementsAboveThreshold(threshold);
+        std::cout << "Simulation completed: P(v > threshold) = " << n << std::endl;
     }
-    double n = countElementsAboveThreshold(threshold);
-    std::cout << "Simulation completed: P(v > threshold) = " << n << std::endl;
     
     return 0;
 }
