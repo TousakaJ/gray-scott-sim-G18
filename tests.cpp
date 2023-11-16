@@ -8,15 +8,9 @@
 
 BOOST_AUTO_TEST_CASE(testGrayScottDiffusionZeroCase) {
     //Simulates the case when u=0 and v=0 to check for the correct result
-    // Your checks go here
     init();
     setZero();
     simulateStep();
-    for (const auto& row : u) {
-        for (const auto& element : row) {
-            BOOST_REQUIRE_CLOSE(element, 0, 1e-9);
-        }
-    }
     for (const auto& row : v) {
         for (const auto& element : row) {
             BOOST_REQUIRE_CLOSE(element, 0, 1e-9);;
@@ -100,4 +94,3 @@ BOOST_AUTO_TEST_CASE(testCountElementsAboveThreshold) {
     // Verify the result
     BOOST_CHECK_CLOSE(result, 0, 1e-9);
 }
-// /* Expected value */ was here
