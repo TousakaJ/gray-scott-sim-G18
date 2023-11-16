@@ -1,17 +1,17 @@
+# Professional Skills Coursework 1 - Group 18 - BOOST Tests + Checks (from Desmond)
 # From Desmond:
-# Professional Skills Coursework 1 - Group 18
 
-This repository contains the first coursework for the Professional Skills course. The main file in this coursework is `gs.cpp`, a C++ programme that simulates the Gray-Scott model, a reaction-diffusion system.
+This repository contains the first coursework for the Professional Skills course. The main file in this coursework is `gs.cpp`, a C++ program that simulates the Gray-Scott model, a reaction-diffusion system.
 
 ## File Analysis: `gs.cpp`
 
-The `gs.cpp` file is a C++ programme that simulates a reaction-diffusion system using the Gray-Scott model. The Gray-Scott model is a mathematical model that simulates the interaction of two chemical substances, U and V, under specific conditions.
+The `gs.cpp` file is a C++ program that simulates a reaction-diffusion system using the Gray-Scott model. The Gray-Scott model is a mathematical model that simulates the interaction of two chemical substances, U and V, under specific conditions.
 
-### programme Structure
+### Program Structure
 
-The programme is structured into several parts:
+The program is structured into several parts:
 
-1. **Global Variables and Constants**: The programme starts by defining several global variables and constants that control the simulation parameters, such as the grid size, diffusion rates, feed rate, kill rate, and time step.
+1. **Global Variables and Constants**: The program starts by defining several global variables and constants that control the simulation parameters, such as the grid size, diffusion rates, feed rate, kill rate, and time step.
 
 2. **Grid Initialization**: The `init()` function initializes the U and V grids. The U grid is initialized to 1.0 everywhere, while the V grid is initialized to 0.0 everywhere except for a rectangular region in the middle, where it is initialized to a random value between 0.0 and 1.0.
 
@@ -21,11 +21,11 @@ The programme is structured into several parts:
 
 5. **Threshold Counting**: The `countElementsAboveThreshold()` function counts the number of elements in the V grid that are above a certain threshold. This is used to measure the progress of the reaction.
 
-6. **Main Function**: The `main()` function controls the overall flow of the programme. It initializes the grids, then enters a loop where it performs a simulation step and periodically writes the V grid to a VTK file. After the simulation is complete, it counts the number of elements in the V grid that are above a certain threshold and prints this value.
+6. **Main Function**: The `main()` function controls the overall flow of the program. It initializes the grids, then enters a loop where it performs a simulation step and periodically writes the V grid to a VTK file. After the simulation is complete, it counts the number of elements in the V grid that are above a certain threshold and prints this value.
 
 ### Usage
 
-The programme takes five command-line arguments: the diffusion rates of U and V, the feed rate, the kill rate, and the threshold for counting elements in the V grid. It prints the progress of the simulation to the console and writes the state of the V grid to a VTK file every 1000 iterations.
+The program takes five command-line arguments: the diffusion rates of U and V, the feed rate, the kill rate, and the threshold for counting elements in the V grid. It prints the progress of the simulation to the console and writes the state of the V grid to a VTK file every 1000 iterations.
 
 `./gs.cpp <Du> <Dv> <F> <k> <threshold>`
 
@@ -33,7 +33,7 @@ The programme takes five command-line arguments: the diffusion rates of U and V,
 
 To build this application locally, you need to follow these steps:
 
-1. Ensure that you have a C++ compiler installed on your system. This programme requires a compiler that supports at least the C++11 standard.
+1. Ensure that you have a C++ compiler installed on your system. This program requires a compiler that supports at least the C++11 standard.
 
 2. Install the Boost library. You can download it from the Boost official website and follow their instructions for installation.
 
@@ -41,11 +41,11 @@ To build this application locally, you need to follow these steps:
 
 4. Navigate to the directory containing the source code.
 
-5. Compile the programme using the following command:
+5. Compile the program using the following command:
 
 `g++ -std=c++11 -o gs *.cpp`
 
-6. Run the programme with the following command:
+6. Run the program with the following command:
 
 `./gs <Du> <Dv> <F> <k> <threshold>`
 
