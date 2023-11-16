@@ -1,4 +1,4 @@
-# Professional Skills Coursework 1 - Group 18
+# Professional Skills Coursework 1 - Group 18 - BOOST Version
 
 This repository contains the first coursework for the Professional Skills course. The main file in this coursework is `gs.cpp`, a C++ programme that simulates the Gray-Scott model, a reaction-diffusion system.
 
@@ -12,7 +12,7 @@ The programme is structured into several parts:
 
 1. **Global Variables and Constants**: The programme starts by defining several global variables and constants that control the simulation parameters, such as the grid size, diffusion rates, feed rate, kill rate, and time step.
 
-2. **Grid Initialization**: The `init()` function initializes the U and V grids. The U grid is initialized to 1.0 everywhere, while the V grid is initialized to 0.0 everywhere except for a rectangular region in the middle, where it is initialized to a random value between 0.0 and 1.0.
+2. **Grid Initialization**: The `init()` function initializes the U and V grids. The U grid is initialized to 1.0 everywhere but the border, while the V grid is initialized to 0.0 everywhere except for a rectangular region in the middle, where it is initialized to a random value between 0.0 and 1.0.
 
 3. **VTK File Writing**: The `writeVTKFile()` function writes the current state of the V grid to a VTK file. This allows the simulation results to be visualized using a VTK viewer.
 
@@ -59,4 +59,4 @@ This check is performed using the Boost library's type checking functions. It en
 This function ensures that the u and v vectors, which represent the concentrations of the two chemicals in the simulation, are the same size. This is necessary for the simulation to work correctly, as the calculations involve element-wise operations on the u and v vectors.
 
 3. **Check that the simulation produces the mathematically correct answer when u = 0 and v = 0.**
-This function runs the simulation for one step after setting u and v to zero. It then checks that the resulting values of u and v are still zero. This is a basic sanity check to ensure that the simulation is working correctly. According to the Gray-Scott model equations, if u and v are both zero, they should remain zero after one simulation step.
+This function runs the simulation for one step after setting u and v to zero. It then checks that the resulting values of u and v are individually dt\*F (except for border) and zero. This is a basic sanity check to ensure that the simulation is working correctly. According to the Gray-Scott model equations, if u and v are both zero, the results should be like above after one simulation step.
