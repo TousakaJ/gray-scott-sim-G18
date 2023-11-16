@@ -1,3 +1,4 @@
+# Modified from Desmond
 # Specify the minimum version for CMake
 cmake_minimum_required(VERSION 3.10)
 
@@ -39,8 +40,10 @@ if(Boost_FOUND)
 endif()
 target_compile_definitions(gs_test PRIVATE UNIT_TEST)
 
+# Implemented with help of ChatGPT:
 # Add a test
 add_test(NAME gs_test COMMAND gs_test)
 
 # Define the UNIT_TEST macro for excluding main in gs.cpp
 target_compile_definitions(gs_test PRIVATE UNIT_TEST)
+# End of ChatGPT implementation help
