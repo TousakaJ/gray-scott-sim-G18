@@ -1,4 +1,4 @@
-# Professional Skills Coursework 1 - Group 18
+# Professional Skills Coursework 1 - Group 18 - BOOST Alt Version
 
 This repository contains the first coursework for the Professional Skills course. The main file in this coursework is `gs.cpp`, a C++ programme that simulates the Gray-Scott model, a reaction-diffusion system.
 
@@ -12,7 +12,7 @@ The programme is structured into several parts:
 
 1. **Global Variables and Constants**: The programme starts by defining several global variables and constants that control the simulation parameters, such as the grid size, diffusion rates, feed rate, kill rate, and time step.
 
-2. **Grid Initialization**: The `init()` function initializes the U and V grids. The U grid is initialized to 1.0 everywhere, while the V grid is initialized to 0.0 everywhere except for a rectangular region in the middle, where it is initialized to a random value between 0.0 and 1.0.
+2. **Grid Initialization**: The `init()` function initializes the U and V grids. The U grid is initialized to 1.0 everywhere but the border, while the V grid is initialized to 0.0 everywhere except for a rectangular region in the middle, where it is initialized to a random value between 0.0 and 1.0.
 
 3. **VTK File Writing**: The `writeVTKFile()` function writes the current state of the V grid to a VTK file. This allows the simulation results to be visualized using a VTK viewer.
 
