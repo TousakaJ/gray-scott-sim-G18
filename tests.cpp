@@ -14,12 +14,12 @@ BOOST_AUTO_TEST_CASE(testGrayScottDiffusionZeroCase) {
     simulateStep();
     for (const auto& row : u) {
         for (const auto& element : row) {
-            BOOST_CHECK_CLOSE(element, 0, 1e-9);
+            BOOST_REQUIRE_CLOSE(element, 0, 1e-9);
         }
     }
     for (const auto& row : v) {
         for (const auto& element : row) {
-            BOOST_CHECK_CLOSE(element, 0, 1e-9);;
+            BOOST_REQUIRE_CLOSE(element, 0, 1e-9);;
         }
     }
     // Count elements above threshold
