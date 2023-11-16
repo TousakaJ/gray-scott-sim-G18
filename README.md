@@ -79,9 +79,9 @@ testSimulation implements a loop over simulationStep() using a test case checkin
 Similarly testCountElementsAboveThreshold uses a test case ensuring that CountElementsAboveThreshold() gives the correct result.
 
 ## Implementation of the Tests
-Within my build structure I have created an excutable called gs_tests that when run implements the tests above hence the following command is all that is required:
+Within my build structure I have created an excutable called gs_tests that when run implements the tests above. Hence the following command is all that is required:
 
-`g++ -std=c++11 -o gs *.cpp`
+`./gs_test`
 
 ## Continuous Integration
 Continuous integration has been added so that upon any push or pull requests to the main branch the build is intiated and tests completed. Upon running the program checks are completed to ensure that it is running as expected.
