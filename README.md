@@ -1,3 +1,4 @@
+# From Desmond:
 # Professional Skills Coursework 1 - Group 18
 
 This repository contains the first coursework for the Professional Skills course. The main file in this coursework is `gs.cpp`, a C++ programme that simulates the Gray-Scott model, a reaction-diffusion system.
@@ -61,6 +62,7 @@ This function ensures that the u and v vectors, which represent the concentratio
 3. **Check that the simulation produces the mathematically correct answer when u = 0 and v = 0.**
 This function runs the simulation for one step after setting u and v to zero. It then checks that the resulting values of u and v are still zero. This is a basic sanity check to ensure that the simulation is working correctly. According to the Gray-Scott model equations, if u and v are both zero, they should remain zero after one simulation step.
 
+# My additions:
 ## Explanation of the Tests
 While the verification codes provide runtime checks these test perform unit tests via the Boosting framework. They check that specific functionalities of the Gray-Scott algorithm are working as intended and can be incorporated into a continuous integration. These have been split up into suitable units to make it easy to identify which part of the code has been broken.
 
@@ -77,3 +79,9 @@ testSimulation implements a loop over simulationStep() using a test case checkin
 Similarly testCountElementsAboveThreshold uses a test case ensuring that CountElementsAboveThreshold() gives the correct result.
 
 ## Implementation of the Tests
+Within my build structure I have created an excutable called gs_tests that when run implements the tests above hence the following command is all that is required:
+
+`g++ -std=c++11 -o gs *.cpp`
+
+## Continuous Integration
+Continuous integration has been added so that upon any push or pull requests to the main branch the build is intiated and tests completed. Upon running the program checks are completed to ensure that it is running as expected.
