@@ -6,6 +6,7 @@
 #include "gs.h"
 #include "tests.h"
 
+#Modified testing version from checks.cpp (ends at !)
 BOOST_AUTO_TEST_CASE(testGrayScottDiffusionZeroCase) {
     //Simulates the case when u=0 and v=0 to check for the correct result
     init();
@@ -22,7 +23,9 @@ BOOST_AUTO_TEST_CASE(testGrayScottDiffusionZeroCase) {
     // Verify the result
     BOOST_CHECK_CLOSE(result, 0, 1e-9);
 }
+#!
 
+#Template for following test case provided by chatGPT:
 BOOST_AUTO_TEST_CASE(testInitialization) {
     // This tests that the initialization function has the correct types of variables and sizes of u and v 
     // Set simulation parameters for the test
@@ -42,6 +45,7 @@ BOOST_AUTO_TEST_CASE(testInitialization) {
     BOOST_CHECK(u[0].size() == v[0].size());
 }
 
+#Following test cases produced following the above template:
 BOOST_AUTO_TEST_CASE(testSimulation) {
     // This tests that the simulationstep function maintains the correct types of variables and sizes of u and v 
     // Set simulation parameters for the test
@@ -62,11 +66,6 @@ BOOST_AUTO_TEST_CASE(testSimulation) {
     BOOST_CHECK(typeid(k) == typeid(v[0][0]));
     BOOST_CHECK(u.size() == v.size());
     BOOST_CHECK(u[0].size() == v[0].size());
-
-    // Verify the simulation results or other conditions
-    // ...
-
-    // You can use BOOST_CHECK or BOOST_REQUIRE macros to add more specific checks
 }
 
 BOOST_AUTO_TEST_CASE(testCountElementsAboveThreshold) {
